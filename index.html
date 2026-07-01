@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neon Matrix Profile</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#000;
+    overflow:hidden;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+canvas{
+    position:fixed;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+    z-index:-1;
+}
+
+.container{
+    text-align:center;
+}
+
+.profile{
+    width:170px;
+    height:170px;
+    border-radius:50%;
+    border:4px solid #00ff88;
+    box-shadow:
+    0 0 15px #00ff88,
+    0 0 40px #00ff88;
+    object-fit:cover;
+    margin-bottom:30px;
+}
+
+.btn{
+    display:block;
+    width:260px;
+    margin:15px auto;
+    padding:15px;
+    color:white;
+    text-decoration:none;
+    border-radius:40px;
+    font-size:20px;
+    font-weight:bold;
+    transition:.3s;
+}
+
+.youtube{
+    background:#ff0000;
+    box-shadow:0 0 20px red;
+}
+
+.youtube:hover{
+    transform:scale(1.05);
+}
+
+.whatsapp{
+    background:#00c853;
+    box-shadow:0 0 20px #00ff88;
+}
+
+.whatsapp:hover{
+    transform:scale(1.05);
+}
+
+.title{
+    color:#00ff88;
+    font-size:30px;
+    margin:20px;
+    text-shadow:0 0 10px #00ff88;
+}
+</style>
+
+</head>
+<body>
+
+<canvas id="matrix"></canvas>
+
+<div class="container">
+
+<img src="profile.jpg" class="profile">
+
+<div class="title">ADOLF SAMP</div>
+
+<a class="btn youtube"
+href="https://youtube.com/@adolfsamp?si=hz7I31BfK85WKyXg"
+target="_blank">
+▶ YouTube
+</a>
+
+<a class="btn whatsapp"
+href="https://whatsapp.com/channel/0029VbCpRwY2ZjChYNTEFj1G"
+target="_blank">
+💬 WhatsApp
+</a>
+
+<audio id="bgmusic" autoplay loop>
+<source src="music.mp3" type="audio/mpeg">
+</audio>
+
+</div>
+
+<script>
+// Matrix Effect
+const canvas=document.getElementById("matrix");
+const ctx=canvas.getContext("2d");
+
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+const chars="アァカサタナハマヤャラワ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const letters=chars.split("");
+
+const fontSize=18;
+const columns=canvas.width/fontSize;
+const drops=[];
+
+for(let x=0;x<columns;x++)
+drops[x]=1;
+
+function draw(){
+
+ctx.fillStyle="rgba(0,0,0,0.05)";
+ctx.fillRect(0,0,canvas.width,canvas.height);
+
+ctx.fillStyle="#00ff88";
+ctx.font=fontSize+"px monospace";
+
+for(let i=0;i<drops.length;i++){
+
+const text=letters[Math.floor(Math.random()*letters.length)];
+
+ctx.fillText(text,i*fontSize,drops[i]*fontSize);
+
+if(drops[i]*fontSize>canvas.height && Math.random()>0.975)
+drops[i]=0;
+
+drops[i]++;
+
+}
+
+}
+
+setInterval(draw,35);
+
+// Autoplay fix
+document.body.addEventListener("click",function(){
+document.getElementById("bgmusic").play();
+},{once:true});
+
+window.onresize=function(){
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+};
+</script>
+
+</body>
+</html>
